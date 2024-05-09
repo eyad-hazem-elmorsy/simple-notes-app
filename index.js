@@ -9,6 +9,8 @@ app.set('view engine', 'ejs');
 
 app.use(express.urlencoded({extended: true}));
 
+const Note = require("./models/note");
+
 mongoose.connect('mongodb://localhost:27017/test')
     .then(() => {
         console.log('Connected to database')
@@ -18,15 +20,6 @@ mongoose.connect('mongodb://localhost:27017/test')
         });
     })
     .catch(err => console.log(err.message));
-
-const noteSchema = new mongoose.Schema({
-    note: {
-        type: String,
-        required: true
-    }
-});
-
-const Note = mongoose.model('Note', noteSchema);
 
 app.get('/', async (req, res) => {
     const notes = await Note.find({});
